@@ -1,4 +1,4 @@
-# 🚘 Assistente Multimodal de Diagnóstico Automotivo com RAG
+# 🚘 Assistente Multimodal de Diagnóstico Automotivo com RAG - GuiaDeBordo IA Automotivo
 
 Aplicação desenvolvida para o Trabalho Orientado da pós-graduação em **Desenvolvimento de Aplicações Interativas com LLMs Multimodais** (PUC Minas).
 
