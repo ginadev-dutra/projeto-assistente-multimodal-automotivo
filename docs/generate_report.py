@@ -338,7 +338,7 @@ story.extend([
         [
             'Áudio',
             'Whisper Turbo + Groq LLM',
-            'Transcrição medida; UI não mostrou resposta final antes do fim do teste.',
+            'Teste ponta a ponta confirmado pela equipe; interface exibiu o diagnóstico após o áudio.',
         ],
         [
             'Saída',
@@ -481,10 +481,11 @@ story.extend([
     ),
     p(
         'O custo total da solicitação de imagem não é conhecido porque quatro '
-        'tentativas anteriores não retornaram uso faturável. O teste de áudio '
-        'teve chamadas registradas, mas a UI não mostrou resultado final e ele '
-        'foi excluído da projeção. Não há dados suficientes para custo mensal '
-        'multimodal confiável. Tarifas e limitações detalhadas em docs/api_costs.md.',
+        'tentativas anteriores não retornaram uso faturável. O teste ponta a '
+        'ponta de áudio foi concluído e exibiu diagnóstico; as chamadas '
+        'sintéticas continuam excluídas das médias mensais. Não há dados '
+        'suficientes para custo mensal multimodal confiável. Tarifas e '
+        'limitações detalhadas em docs/api_costs.md.',
         'Smallx',
     ),
     PageBreak(),
@@ -536,7 +537,7 @@ story.extend([
 story.extend(bullets([
     'Há apenas uma solicitação real observada, completa e não sintética de texto na projeção; amostra muito pequena.',
     'A imagem funcionou após quatro tentativas Gemini com falha; custo dessas tentativas desconhecido e latência elevada.',
-    'No teste de áudio, Whisper e Groq registraram sucesso de API, mas a UI permaneceu “Analisando” por mais de 165 s e não exibiu resposta antes de o teste ser encerrado. Investigar parsing, fallback e tempo de resposta.',
+    'O fluxo de áudio foi concluído em teste ponta a ponta posterior, confirmado pela equipe; ampliar a avaliação para diferentes áudios e condições.',
     'O RAG tem 10 perguntas e um único manual; acerto@3 não demonstra qualidade ou segurança mecânica geral.',
     'As entradas de demonstração são artificiais; faltam testes de campo autorizados e avaliação humana das respostas.',
 ]))
@@ -544,7 +545,7 @@ story.extend([
     p('Próximos passos prioritários', 'H2x'),
 ])
 story.extend(bullets([
-    'Investigar e corrigir o estado “Analisando” no fluxo de áudio e repetir o teste end-to-end.',
+    'Ampliar os testes ponta a ponta de áudio com relatos variados e verificar a consistência das transcrições e diagnósticos.',
     'Coletar ao menos cinco solicitações completas por modalidade esperada, com mix representativo, e revisar tarifas.',
     'Ampliar o conjunto de testes e avaliar respostas/citações com revisão humana.',
     'Testar riscos de privacidade, prompt injection e segurança das recomendações.',
@@ -553,8 +554,9 @@ story.extend([
     p(
         'O repositório contém este relatório, documentação da arquitetura e '
         'custos, entradas sintéticas e duas capturas da interface. A estimativa '
-        'mensal multimodal e a validação end-to-end do áudio permanecem '
-        'pendentes; não foram apresentadas como concluídas.'
+        'mensal multimodal representativa permanece pendente; o fluxo de áudio '
+        'foi validado em teste ponta a ponta sintético, mas ainda requer '
+        'avaliação com amostras variadas.'
     ),
     p(
         'Fontes oficiais do manual e das tarifas estão em '
