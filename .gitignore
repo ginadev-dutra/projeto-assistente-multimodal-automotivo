@@ -1,1 +1,25 @@
+# Segredos locais
 .env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+
+# Ambientes e caches Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Artefatos locais do Gradio e índices/modelos gerados
+.gradio/
+dados/indice/
+.modelos/
+.chroma/
+chroma_db/
+
+# Dados de execução locais
+logs/
+historico/

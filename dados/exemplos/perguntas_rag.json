@@ -1,0 +1,66 @@
+{
+  "description": "Perguntas de teste com respostas conferidas no manual do veículo. expected_pages usa a numeração física do PDF, iniciando em 1.",
+  "k": 3,
+  "cases": [
+    {
+      "id": "rag-01",
+      "question": "O veículo tem tomada de 12 V? Onde ela fica?",
+      "expected_answer": "Sim. A tomada de 12 V fica no console central dianteiro.",
+      "expected_pages": [139]
+    },
+    {
+      "id": "rag-02",
+      "question": "Qual é a potência máxima permitida para a tomada de 12 V?",
+      "expected_answer": "A potência máxima da tomada de 12 V é 120 W.",
+      "expected_pages": [139]
+    },
+    {
+      "id": "rag-03",
+      "question": "Onde encontro a etiqueta com as pressões corretas dos pneus?",
+      "expected_answer": "Dependendo da versão, a etiqueta fica na parte interna da portinhola do tanque de combustível ou na área inferior da coluna da porta dianteira.",
+      "expected_pages": [209]
+    },
+    {
+      "id": "rag-04",
+      "question": "Como deve ficar posicionado corretamente o cinto de segurança?",
+      "expected_answer": "A faixa superior deve passar pelo meio do ombro; a faixa inferior, pela região pélvica. O cinto deve ficar plano e sem torções.",
+      "expected_pages": [44]
+    },
+    {
+      "id": "rag-05",
+      "question": "Como aciono o freio de estacionamento?",
+      "expected_answer": "Puxe a alavanca para cima mantendo o botão bloqueador pressionado.",
+      "expected_pages": [128]
+    },
+    {
+      "id": "rag-06",
+      "question": "Gasolina com chumbo pode danificar o veículo?",
+      "expected_answer": "Sim. Um único abastecimento com gasolina com chumbo ou aditivos metálicos pode reduzir a eficácia e danificar o catalisador.",
+      "expected_pages": [164]
+    },
+    {
+      "id": "rag-07",
+      "question": "Como substituo a palheta do limpador do para-brisa?",
+      "expected_answer": "Destrave e retire a palheta antiga, instale uma nova do mesmo tamanho e modelo até encaixar e baixe cuidadosamente o braço do limpador.",
+      "expected_pages": [170]
+    },
+    {
+      "id": "rag-08",
+      "question": "O que posso fazer se o motor não der partida porque a bateria de 12 V descarregou?",
+      "expected_answer": "É possível usar a bateria de 12 V de outro veículo para auxiliar a partida, conectando corretamente cabos auxiliares apropriados.",
+      "expected_pages": [184]
+    },
+    {
+      "id": "rag-09",
+      "question": "Quais são os passos iniciais para verificar o nível do óleo do motor?",
+      "expected_answer": "Desligue o motor, espere alguns minutos para o óleo retornar ao cárter e localize a vareta de medição e a abertura de enchimento.",
+      "expected_pages": [195]
+    },
+    {
+      "id": "rag-10",
+      "question": "O que pode acontecer se o líquido de arrefecimento congelar?",
+      "expected_answer": "O veículo pode parar; o aquecimento interno também pode deixar de funcionar, com risco de queda da temperatura corporal dos ocupantes.",
+      "expected_pages": [197]
+    }
+  ]
+}

@@ -1,17 +1,22 @@
 import gradio as gr
+from pathlib import Path
+from uuid import uuid4
 from src.services.stt_service import STTService
 from src.services.rag_service import RAGService
-from src.services.llm_service import MultimodalLLMService
+from src.services.llm_service import LLMProviderError, MultimodalLLMService
+from src.services.usage_service import record_request_start
 
 stt_service = STTService()
-rag_service = RAGService(manuals_dir='manuals')
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+rag_service = RAGService(manuals_dir=str(PROJECT_ROOT / 'manuals'))
 llm_service = MultimodalLLMService()
 
-def process_diagnostic(image, audio, user_text):
+def process_diagnostic(image, audio, user_text, request_id, modality):
+    record_request_start(request_id, modality)
     # 1. Processa áudio se enviado
     transcribed_text = ''
     if audio:
-        transcribed_text = stt_service.transcribe_audio(audio)
+        transcribed_text = stt_service.transcribe_audio(audio, request_id, modality)
     
     full_context = (
         f"Relato por escrito: {user_text or 'Nenhum'}\n"
@@ -24,15 +29,21 @@ def process_diagnostic(image, audio, user_text):
         search_query = "diagnóstico luz de alerta painel automotivo"
     rag_context = rag_service.search_manual(query=search_query, top_k=3)
     
-    # 3. Análise Multimodal LLM
-    if not image and not audio:
-        report = llm_service.manual_only_report(rag_context)
-    else:
+    # 3. Envia imagens ao Gemini; consultas sem imagem usam o provedor configurado.
+    try:
         report = llm_service.analyze_dashboard_alert(
             image_path=image,
             context_text=full_context,
-            rag_context=rag_context
+            rag_context=rag_context,
+            request_id=request_id,
+            modality=modality,
         )
+    except LLMProviderError as error:
+        output_md = f"""### ⚠️ Não foi possível concluir a análise
+
+{error}
+"""
+        return output_md, transcribed_text, rag_context
     
     # Formata saída para a interface
     actions = '\n'.join([f'- {act}' for act in report.acoes_recomendadas])
@@ -57,10 +68,24 @@ def process_diagnostic(image, audio, user_text):
     
     return output_md, transcribed_text, rag_context
 
-def prepare_diagnostic(user_text):
+def get_modality(image, audio):
+    if image and audio:
+        return 'image+audio'
+    if image:
+        return 'image'
+    if audio:
+        return 'audio'
+    return 'text'
+
+
+def prepare_diagnostic(user_text, image, audio):
     return (
         user_text,
+        str(uuid4()),
+        get_modality(image, audio),
         gr.update(value='⏳ Analisando...', interactive=False),
+        gr.update(value=''),
+        gr.update(value=''),
         gr.update(value='')
     )
 
@@ -90,6 +115,8 @@ with gr.Blocks(title='GuiaDeBordo IA Automotivo') as demo:
             btn_submit = gr.Button('🔍 Enviar', variant='primary')
             btn_new = gr.Button('🔄 Nova análise', variant='primary')
             captured_text = gr.State()
+            request_id_state = gr.State()
+            modality_state = gr.State()
         
         with gr.Column():
             output_report = gr.Markdown(label='Diagnóstico')
@@ -99,12 +126,20 @@ with gr.Blocks(title='GuiaDeBordo IA Automotivo') as demo:
                 
     btn_submit.click(
         fn=prepare_diagnostic,
-        inputs=[text_input],
-        outputs=[captured_text, btn_submit, text_input],
+        inputs=[text_input, img_input, audio_input],
+        outputs=[
+            captured_text,
+            request_id_state,
+            modality_state,
+            btn_submit,
+            output_report,
+            transcription_out,
+            rag_out
+        ],
         queue=False
     ).then(
         fn=process_diagnostic,
-        inputs=[img_input, audio_input, captured_text],
+        inputs=[img_input, audio_input, captured_text, request_id_state, modality_state],
         outputs=[output_report, transcription_out, rag_out]
     ).then(
         fn=reset_diagnostic_button,

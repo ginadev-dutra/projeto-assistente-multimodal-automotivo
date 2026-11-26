@@ -1,0 +1,9 @@
+Responda exclusivamente com um objeto JSON válido com as chaves:
+- simbolo_identificado: string
+- gravidade_urgencia: string
+- significado_manual: string
+- prognostico_contextual: string
+- acoes_recomendadas: lista de strings
+- resumo_oficina: string
+
+Não inclua markdown nem texto fora do JSON. Não invente dados ausentes no contexto; identifique incertezas.
